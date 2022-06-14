@@ -79,7 +79,6 @@ let splitFile = fn(file: *const i8, name: &string.String, ext: &string.String) {
 	ext.clear();
 	let found_dot = -1;
 	let filelen = c.strlen(file);
-	let v = vec.new(string.String, true);
 	if filelen <= 0 { return; }
 
 	for let i = filelen; i >= 0; --i {

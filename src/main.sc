@@ -18,8 +18,8 @@ let main = fn(argc: i32, argv: **i8): i32 {
 
 	let args = argparse.new(argc, argv);
 	defer args.deinit();
-	args.add(ref"help", ref"h").setHelp(ref"prints program usage format");
-	args.add(ref"version", ref"v").setHelp(ref"prints program version");
+	args.add("help", "h").setHelp("prints program usage format");
+	args.add("version", "v").setHelp("prints program version");
 	flags.addToArgParser(args);
 
 	if !args.parse() {
@@ -29,18 +29,18 @@ let main = fn(argc: i32, argv: **i8): i32 {
 		}
 		return 1;
 	}
-	if args.has(ref"help") {
+	if args.has("help") {
 		args.printHelp(io.stdout);
 		return 0;
 	}
-	if args.has(ref"version") {
+	if args.has("version") {
 		io.println("Ls Extended v0.0.1, built with Scribe Compiler v", @compilerID());
 		return 0;
 	}
 	let entries = args.getAllArgIdxFrom(1);
 	defer entries.deinit();
 
-	if entries.isEmpty() { entries.pushVal(ref"."); }
+	if entries.isEmpty() { entries.pushVal("."); }
 
 	let ws: ioctl.winsize;
 	ioctl.ioctl(unistd.STDOUT_FILENO, ioctl.TIOCGWINSZ, &ws);

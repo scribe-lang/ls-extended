@@ -21,41 +21,41 @@ let CAPS_X: const u32 = 1 << 15; // extension sort
 let ONE: const u32 = 1 << 16;
 
 let addToArgParser = fn(args: &argparse.ArgParser) {
-	args.add(ref"all", ref"a").setHelp(ref"Show all files/folders, including hidden");
-	args.add(ref"dir", ref"d").setHelp(ref"Show only folders/directories");
-	args.add(ref"files", ref"f").setHelp(ref"Show only files");
-	args.add(ref"human", ref"H").setHelp(ref"Show all sizes in human readable format (only usable with -l)");
-	args.add(ref"inode", ref"i").setHelp(ref"Show inode numbers of all files/folders (only usable with -l)");
-	args.add(ref"iso-time", ref"I").setHelp(ref"Show time in ISO-Long format (only usable with -l)");
-	args.add(ref"list", ref"l").setHelp(ref"Show the files/folders in a list format with their various information");
-	args.add(ref"no-col", ref"N").setHelp(ref"Disable colored output [TODO]");
-	args.add(ref"rev", ref"r").setHelp(ref"Reverse the sorting order");
-	args.add(ref"rev", ref"r").setHelp(ref"Reverse the sorting order");
-	args.add(ref"size", ref"S").setHelp(ref"Sort by size");
-	args.add(ref"time", ref"T").setHelp(ref"Sort by time");
-	args.add(ref"vers", ref"V").setHelp(ref"Sort by version [TODO]");
-	args.add(ref"ext", ref"X").setHelp(ref"Sort by extension");
-	args.add(ref"sort-dir", ref"s").setHelp(ref"Sorts the output by directories first");
-	args.add(ref"one", ref"1").setHelp(ref"Force output to be one entry per line");
+	args.add("all", "a").setHelp("Show all files/folders, including hidden");
+	args.add("dir", "d").setHelp("Show only folders/directories");
+	args.add("files", "f").setHelp("Show only files");
+	args.add("human", "H").setHelp("Show all sizes in human readable format (only usable with -l)");
+	args.add("inode", "i").setHelp("Show inode numbers of all files/folders (only usable with -l)");
+	args.add("iso-time", "I").setHelp("Show time in ISO-Long format (only usable with -l)");
+	args.add("list", "l").setHelp("Show the files/folders in a list format with their various information");
+	args.add("no-col", "N").setHelp("Disable colored output [TODO]");
+	args.add("rev", "r").setHelp("Reverse the sorting order");
+	args.add("rev", "r").setHelp("Reverse the sorting order");
+	args.add("size", "S").setHelp("Sort by size");
+	args.add("time", "T").setHelp("Sort by time");
+	args.add("vers", "V").setHelp("Sort by version [TODO]");
+	args.add("ext", "X").setHelp("Sort by extension");
+	args.add("sort-dir", "s").setHelp("Sorts the output by directories first");
+	args.add("one", "1").setHelp("Force output to be one entry per line");
 };
 
 // must be called after ArgParser.parse()
 let getMask = fn(args: &argparse.ArgParser): u32 {
 	let mask: u32 = 0;
-	if args.has(ref"all") { mask |= A; }
-	if args.has(ref"dir") { mask |= D; }
-	if args.has(ref"files") { mask |= F; }
-	if args.has(ref"human") { mask |= CAPS_H; }
-	if args.has(ref"inode") { mask |= I; }
-	if args.has(ref"iso-time") { mask |= CAPS_I; }
-	if args.has(ref"list") { mask |= L; }
-	if args.has(ref"no-col") { mask |= CAPS_N; }
-	if args.has(ref"rev") { mask |= R; }
-	if args.has(ref"size") { mask |= CAPS_S; }
-	if args.has(ref"time") { mask |= CAPS_T; }
-	if args.has(ref"vers") { mask |= CAPS_V; }
-	if args.has(ref"ext") { mask |= CAPS_X; }
-	if args.has(ref"sort-dir") { mask |= S; }
-	if args.has(ref"one") { mask |= ONE; }
+	if args.has("all") { mask |= A; }
+	if args.has("dir") { mask |= D; }
+	if args.has("files") { mask |= F; }
+	if args.has("human") { mask |= CAPS_H; }
+	if args.has("inode") { mask |= I; }
+	if args.has("iso-time") { mask |= CAPS_I; }
+	if args.has("list") { mask |= L; }
+	if args.has("no-col") { mask |= CAPS_N; }
+	if args.has("rev") { mask |= R; }
+	if args.has("size") { mask |= CAPS_S; }
+	if args.has("time") { mask |= CAPS_T; }
+	if args.has("vers") { mask |= CAPS_V; }
+	if args.has("ext") { mask |= CAPS_X; }
+	if args.has("sort-dir") { mask |= S; }
+	if args.has("one") { mask |= ONE; }
 	return mask;
 };

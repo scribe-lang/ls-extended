@@ -104,26 +104,26 @@ let basic = fn(locs: &vec.Vec(core.StatInfo), ws: &const ioctl.winsize, maxlen: 
 
 	let item_line_ctr = 0;
 
-	for let r = 0; r < rows; ++r {
-		for let c = 0; c < cols; ++c {
-			let i: u64 = c * rows + r;
+	for let R = 0; R < rows; ++R {
+		for let C = 0; C < cols; ++C {
+			let i: u64 = C * rows + R;
 			if i >= count { continue; }
 			let stats = locs[i];
 			let cspace = stats.width;
-			if c == cols - 1 { cspace = -1; }
+			if C == cols - 1 { cspace = -1; }
 			if stats.linkst.isDir() {
-				io.fprintf(io.stdout, "%s%-*s%s", clrs.BLUE, cspace, stats.name.cStr(), clrs.RESET);
+				io.fprintf(io.stdout, r"%s%-*s%s", clrs.BLUE, cspace, stats.name.cStr(), clrs.RESET);
 			} elif stats.linkst.isLink() {
 				if stats.linkdead {
-					io.fprintf(io.stdout, "%s%-*s%s", clrs.RED, cspace, stats.name.cStr(), clrs.RESET);
+					io.fprintf(io.stdout, r"%s%-*s%s", clrs.RED, cspace, stats.name.cStr(), clrs.RESET);
 				} else {
-					io.fprintf(io.stdout, "%s%-*s%s", clrs.YELLOW, cspace, stats.name.cStr(), clrs.RESET);
+					io.fprintf(io.stdout, r"%s%-*s%s", clrs.YELLOW, cspace, stats.name.cStr(), clrs.RESET);
 				}
 			} else {
 				if stats.st.isXUSR() {
-					io.fprintf(io.stdout, "%s%-*s%s", clrs.GREEN, cspace, stats.name.cStr(), clrs.RESET);
+					io.fprintf(io.stdout, r"%s%-*s%s", clrs.GREEN, cspace, stats.name.cStr(), clrs.RESET);
 				} else {
-					io.fprintf(io.stdout, "%s%-*s%s", clrs.RESET, cspace, stats.name.cStr(), clrs.RESET);
+					io.fprintf(io.stdout, r"%s%-*s%s", clrs.RESET, cspace, stats.name.cStr(), clrs.RESET);
 				}
 			}
 		}
@@ -140,89 +140,89 @@ let list = fn(locs: &vec.Vec(core.StatInfo), ws: &const ioctl.winsize, maxlen: *
 		if mask & flags.I {
 			let inodespace = 0;
 			if @as(u64, maxlen) != nil { inodespace = maxlen.inode; }
-			io.fprintf(io.stdout, "%-*llu ", inodespace, stats.st.st_ino);
+			io.fprintf(io.stdout, r"%-*llu ", inodespace, stats.st.st_ino);
 		}
 
 		// dir/link/file
-		if stats.st.isDir() { io.fprintf(io.stdout, "%sd", clrs.BLUE); }
-		elif stats.st.isLink() { io.fprintf(io.stdout, "%sl", clrs.BLUE); }
-		else { io.fprintf(io.stdout, "%s-", clrs.BLUE); }
+		if stats.st.isDir() { io.fprintf(io.stdout, r"%sd", clrs.BLUE); }
+		elif stats.st.isLink() { io.fprintf(io.stdout, r"%sl", clrs.BLUE); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.BLUE); }
 
-		if stats.st.isRUSR() { io.fprintf(io.stdout, "%sr", clrs.MAGENTA); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isWUSR() { io.fprintf(io.stdout, "%sw", clrs.CYAN); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isXUSR() { io.fprintf(io.stdout, "%sx", clrs.RED); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isRGRP() { io.fprintf(io.stdout, "%sr", clrs.MAGENTA); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isWGRP() { io.fprintf(io.stdout, "%sw", clrs.CYAN); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isXGRP() { io.fprintf(io.stdout, "%sx", clrs.RED); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isROTH() { io.fprintf(io.stdout, "%sr", clrs.MAGENTA); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isWOTH() { io.fprintf(io.stdout, "%sw", clrs.CYAN); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isXOTH() { io.fprintf(io.stdout, "%sx", clrs.RED); }
-		else { io.fprintf(io.stdout, "%s-", clrs.RESET); }
-		if stats.st.isVTX() { io.fprintf(io.stdout, "%ss", clrs.RED); }
-		else { io.fprintf(io.stdout, "%s ", clrs.RESET); }
+		if stats.st.isRUSR() { io.fprintf(io.stdout, r"%sr", clrs.MAGENTA); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isWUSR() { io.fprintf(io.stdout, r"%sw", clrs.CYAN); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isXUSR() { io.fprintf(io.stdout, r"%sx", clrs.RED); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isRGRP() { io.fprintf(io.stdout, r"%sr", clrs.MAGENTA); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isWGRP() { io.fprintf(io.stdout, r"%sw", clrs.CYAN); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isXGRP() { io.fprintf(io.stdout, r"%sx", clrs.RED); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isROTH() { io.fprintf(io.stdout, r"%sr", clrs.MAGENTA); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isWOTH() { io.fprintf(io.stdout, r"%sw", clrs.CYAN); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isXOTH() { io.fprintf(io.stdout, r"%sx", clrs.RED); }
+		else { io.fprintf(io.stdout, r"%s-", clrs.RESET); }
+		if stats.st.isVTX() { io.fprintf(io.stdout, r"%ss", clrs.RED); }
+		else { io.fprintf(io.stdout, r"%s ", clrs.RESET); }
 		io.print(" ");
 
 		// links
 		if @as(u64, maxlen) == nil {
-			io.fprintf(io.stdout, "%s%-*d ", clrs.RESET, 0, stats.st.st_nlink);
+			io.fprintf(io.stdout, r"%s%-*d ", clrs.RESET, 0, stats.st.st_nlink);
 		} else {
-			io.fprintf(io.stdout, "%s%-*d ", clrs.RESET, maxlen.links, stats.st.st_nlink);
+			io.fprintf(io.stdout, r"%s%-*d ", clrs.RESET, maxlen.links, stats.st.st_nlink);
 		}
 		// user & group
 		if @as(u64, maxlen) == nil {
-			io.fprintf(io.stdout, "%s%-*s ", clrs.GREEN, 0, stats.user.cStr());
-			io.fprintf(io.stdout, "%s%-*s ", clrs.GREEN, 0, stats.group.cStr());
+			io.fprintf(io.stdout, r"%s%-*s ", clrs.GREEN, 0, stats.user.cStr());
+			io.fprintf(io.stdout, r"%s%-*s ", clrs.GREEN, 0, stats.group.cStr());
 		} else {
-			io.fprintf(io.stdout, "%s%-*s ", clrs.GREEN, maxlen.user, stats.user.cStr());
-			io.fprintf(io.stdout, "%s%-*s ", clrs.GREEN, maxlen.group, stats.group.cStr());
+			io.fprintf(io.stdout, r"%s%-*s ", clrs.GREEN, maxlen.user, stats.user.cStr());
+			io.fprintf(io.stdout, r"%s%-*s ", clrs.GREEN, maxlen.group, stats.group.cStr());
 		}
 		// file size
 		if @as(u64, maxlen) == nil {
-			io.fprintf(io.stdout, "%s%-*s ", clrs.YELLOW, 0, stats.size.cStr());
+			io.fprintf(io.stdout, r"%s%-*s ", clrs.YELLOW, 0, stats.size.cStr());
 		} else {
-			io.fprintf(io.stdout, "%s%-*s ", clrs.YELLOW, maxlen.size, stats.size.cStr());
+			io.fprintf(io.stdout, r"%s%-*s ", clrs.YELLOW, maxlen.size, stats.size.cStr());
 		}
 
 		// last modified time
 		let mtime: @array(i8, 30);
 		if mask & flags.CAPS_I {
 			// long-iso format
-			time.strftime(mtime, 30, "%Y-%m-%d %H:%M", time.localtime(&stats.st.st_mtime));
+			time.strftime(mtime, 30, r"%Y-%m-%d %H:%M", time.localtime(&stats.st.st_mtime));
 		} else {
-			time.strftime(mtime, 30, "%h %e %H:%M", time.localtime(&stats.st.st_mtime));
+			time.strftime(mtime, 30, r"%h %e %H:%M", time.localtime(&stats.st.st_mtime));
 		}
-		io.fprintf(io.stdout, "%s%s ", clrs.MAGENTA, mtime);
+		io.fprintf(io.stdout, r"%s%s ", clrs.MAGENTA, mtime);
 
 		// file/folder name
 		if stats.linkst.isDir() {
-			io.fprintf(io.stdout, "%s%-*s%s", clrs.BLUE, stats.width, stats.name.cStr(), clrs.RESET);
+			io.fprintf(io.stdout, r"%s%-*s%s", clrs.BLUE, stats.width, stats.name.cStr(), clrs.RESET);
 		} elif stats.st.isLink() {
 			if stats.linkdead {
-				io.fprintf(io.stdout, "%s%-*s%s", clrs.RED, stats.width, stats.name.cStr(), clrs.RESET);
+				io.fprintf(io.stdout, r"%s%-*s%s", clrs.RED, stats.width, stats.name.cStr(), clrs.RESET);
 			} else {
-				io.fprintf(io.stdout, "%s%-*s%s", clrs.YELLOW, stats.width, stats.name.cStr(), clrs.RESET);
+				io.fprintf(io.stdout, r"%s%-*s%s", clrs.YELLOW, stats.width, stats.name.cStr(), clrs.RESET);
 			}
 		} else {
 			if stats.st.isXUSR() {
-				io.fprintf(io.stdout, "%s%-*s%s", clrs.BOLD_GREEN, stats.width, stats.name.cStr(), clrs.RESET);
+				io.fprintf(io.stdout, r"%s%-*s%s", clrs.BOLD_GREEN, stats.width, stats.name.cStr(), clrs.RESET);
 			} else {
-				io.fprintf(io.stdout, "%s%-*s%s", clrs.RESET, stats.width, stats.name.cStr(), clrs.RESET);
+				io.fprintf(io.stdout, r"%s%-*s%s", clrs.RESET, stats.width, stats.name.cStr(), clrs.RESET);
 			}
 		}
 
 		// link info for links
 		if stats.st.isLink() {
-			io.fprintf(io.stdout, " %s-> %s%s%s", clrs.MAGENTA, clrs.CYAN, stats.linkloc.cStr(), clrs.RESET);
+			io.fprintf(io.stdout, r" %s-> %s%s%s", clrs.MAGENTA, clrs.CYAN, stats.linkloc.cStr(), clrs.RESET);
 			if stats.linkdead {
-				io.fprintf(io.stdout, " %s[%sdead link%s]%s", clrs.YELLOW, clrs.RED, clrs.YELLOW, clrs.RESET);
+				io.fprintf(io.stdout, r" %s[%sdead link%s]%s", clrs.YELLOW, clrs.RED, clrs.YELLOW, clrs.RESET);
 			}
 		}
 

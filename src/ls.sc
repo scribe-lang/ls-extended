@@ -77,9 +77,9 @@ let getStats = fn(path: &const string.String, stats: &core.StatInfo): i1 {
 		}
 		buf[len] = 0;
 		if stats.linkjumps == 1 { stats.linkloc = buf; }
-		let jmpdir = os.dirName(buf);
+		let jmpdir = os.dirName(toStringRef(buf));
 		defer jmpdir.deinit();
-		let jmpfile = os.baseName(buf);
+		let jmpfile = os.baseName(toStringRef(buf));
 		defer jmpfile.deinit();
 		let cd_res = os.setCWD(jmpdir.cStr());
 		if cd_res {
@@ -140,7 +140,7 @@ let updateDataAndMaxLen = fn(stats: &core.StatInfo, maxlen: *core.MaxLen, mask: 
 	if @as(u64, maxlen) != nil && maxlen.size < len { maxlen.size = len; }
 };
 
-let genFileVec = fn(dir: *dirent.DIR, maxlen: &core.MaxLen, baseloc: *const i8, mask: u32): vec.Vec(core.StatInfo) {
+let genFileVec = fn(dir: *dirent.DIR, maxlen: &core.MaxLen, baseloc: StringRef, mask: u32): vec.Vec(core.StatInfo) {
 	let di: *dirent.dirent = nil;
 	let locs = vec.new(core.StatInfo, true);
 	let dirlocs = vec.new(core.StatInfo, false); // only used if mask & flags.S == true
@@ -153,7 +153,7 @@ let genFileVec = fn(dir: *dirent.DIR, maxlen: &core.MaxLen, baseloc: *const i8, 
 			if di.d_type == dirent.DT_DIR && !(mask & flags.D) { continue; }
 			if di.d_type != dirent.DT_DIR && !(mask & flags.F) { continue; }
 		}
-		if c.strcmp(di.d_name, ".") == 0 || c.strcmp(di.d_name, "..") == 0 {
+		if c.strcmp(di.d_name, r".") == 0 || c.strcmp(di.d_name, r"..") == 0 {
 			continue;
 		}
 
@@ -213,7 +213,7 @@ let genFileVec = fn(dir: *dirent.DIR, maxlen: &core.MaxLen, baseloc: *const i8, 
 	return locs;
 };
 
-let run = fn(entry: string.StringRef, mask: u32, entrycount: u64, ws: &const ioctl.winsize): i1 {
+let run = fn(entry: StringRef, mask: u32, entrycount: u64, ws: &const ioctl.winsize): i1 {
 	let fentry = string.from(entry);
 	defer fentry.deinit();
 
@@ -268,7 +268,7 @@ let run = fn(entry: string.StringRef, mask: u32, entrycount: u64, ws: &const ioc
 		return false;
 	}
 
-	let dir = dirent.opendir(".");
+	let dir = dirent.opendir(r".");
 
 	if @as(u64, dir) == nil {
 		err.push(c.errno, "Failed to open directory '", fentry, "', error: ", c.strerror(c.errno));
